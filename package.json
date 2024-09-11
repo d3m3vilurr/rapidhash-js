@@ -1,0 +1,31 @@
+{
+  "name": "rapidhash",
+  "version": "1.0.0",
+  "description": "pure javascript rapidhash port",
+  "import": "./dist/rapidhash.js",
+  "main": "./dist/rapidhash.cjs",
+  "types": "./dist/rapidhash.d.ts",
+  "type": "module",
+  "keyword": [
+    "rapidhash"
+  ],
+  "author": "Sunguk Lee <d3m3vilurr@gmail.com>",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "tsup": "^8.2.4",
+    "typescript": "^5.6.2"
+  },
+  "scripts": {
+    "build": "tsup --format esm,cjs"
+  },
+  "tsup": {
+    "entry": [
+      "rapidhash.ts"
+    ],
+    "sourcemap": true,
+    "clean": true,
+    "dts": true,
+    "shims": true
+  }
+}
