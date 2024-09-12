@@ -1,6 +1,6 @@
 {
   "name": "rapidhash",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "pure javascript rapidhash port",
   "import": "./dist/rapidhash.js",
   "main": "./dist/rapidhash.cjs",
