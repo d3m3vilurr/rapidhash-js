@@ -21,11 +21,13 @@
   "license": "BSD-2-Clause",
   "devDependencies": {
     "@types/node": "^22.5.4",
+    "ts-node": "^10.9.2",
     "tsup": "^8.2.4",
     "typescript": "^5.6.2"
   },
   "scripts": {
-    "build": "tsup --format esm,cjs"
+    "build": "tsup --format esm,cjs",
+    "test": " ts-node --esm rapidhash.test.ts"
   },
   "tsup": {
     "entry": [
