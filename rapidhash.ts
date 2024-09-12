@@ -36,11 +36,11 @@ function mix(a: bigint, b:bigint): bigint {
   return BigInt.asUintN(64, a ^ b);
 }
 
-function read64(p: Buffer, offset: number): bigint {
+function read64(p: Buffer, offset: number = 0): bigint {
   return p.readBigUInt64LE(offset);
 }
 
-function read32(p: Buffer, offset: number): bigint {
+function read32(p: Buffer, offset: number = 0): bigint {
   return BigInt(p.readUInt32LE(offset));
 }
 
@@ -76,27 +76,27 @@ function hashInternal(
   } else {
     let i = l;
     if (i > 48) {
-      let pp = p;
+      let ii = 0;
       let see1 = seed
       let see2 = seed
       do {
-        seed = mix(read64(pp, 0) ^ secret[0], read64(pp, 8) ^ seed);
-        see1 = mix(read64(pp, 16) ^ secret[1], read64(pp, 24) ^ see1);
-        see2 = mix(read64(pp, 32) ^ secret[2], read64(pp, 40) ^ see2);
-        pp = pp.slice(48)
+        seed = mix(read64(p, ii) ^ secret[0], read64(p, ii + 8) ^ seed);
+        see1 = mix(read64(p, ii + 16) ^ secret[1], read64(p, ii + 24) ^ see1);
+        see2 = mix(read64(p, ii + 32) ^ secret[2], read64(p, ii + 40) ^ see2);
         i -= 48;
+        ii += 48;
       } while (i >= 48);
       seed ^= see1 ^ see2;
-      a = read64(p.slice(i - 16 - pp.length), 0)
-      b = read64(p.slice(i - 8 - pp.length), 0)
+      a = read64(p, ii + i - 16)
+      b = read64(p, ii + i - 8)
     }
     if (i > 16) {
       seed = mix(read64(p, 0) ^ secret[2], read64(p, 8) ^ seed ^ secret[1]);
       if (i > 32) {
         seed = mix(read64(p, 16) ^ secret[2], read64(p, 24) ^ seed);
       }
-      a = read64(p.slice(i - 16), 0);
-      b = read64(p.slice(i - 8), 0);
+      a = read64(p, i - 16);
+      b = read64(p, i - 8);
     }
   }
   a ^= secret[1];
