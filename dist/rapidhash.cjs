@@ -34,25 +34,12 @@ var RAPIDHASH_PROTECTED = false;
 function mum(a, b) {
   a = BigInt.asUintN(64, a);
   b = BigInt.asUintN(64, b);
-  const ha = a >> 32n;
-  const hb = b >> 32n;
-  const la = BigInt.asUintN(32, a);
-  const lb = BigInt.asUintN(32, b);
-  const rh = BigInt.asUintN(64, ha * hb);
-  const rm0 = BigInt.asUintN(64, ha * lb);
-  const rm1 = BigInt.asUintN(64, hb * la);
-  const rl = BigInt.asUintN(64, la * lb);
-  const t = BigInt.asUintN(64, rl + (rm0 << 32n));
-  let c = t < rl ? 1n : 0n;
-  const lo = BigInt.asUintN(64, t + (rm1 << 32n));
-  c += lo < t ? 1n : 0n;
-  const hi = BigInt.asUintN(64, rh + (rm0 >> 32n) + (rm1 >> 32n) + c);
+  const r = BigInt.asUintN(128, a * b);
   if (RAPIDHASH_PROTECTED) {
-    a ^= lo;
-    b ^= hi;
-    return [BigInt.asUintN(64, a), BigInt.asUintN(64, b)];
+    return [a ^ BigInt.asUintN(64, r), b ^ BigInt.asUintN(64, r >> 64n)];
+  } else {
+    return [BigInt.asUintN(64, r), BigInt.asUintN(64, r >> 64n)];
   }
-  return [BigInt.asUintN(64, lo), BigInt.asUintN(64, hi)];
 }
 function mix(a, b) {
   [a, b] = mum(a, b);
