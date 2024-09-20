@@ -116,6 +116,9 @@ export function hashWithSeed(
   return hashInternal(k, l, seed, RAPID_SECRET)
 }
 
-export function hash(k: string | Uint8Array, l: number): bigint {
+export function hash(k: string | Uint8Array, l?: number): bigint {
+  if (l === undefined) {
+    l = k.length;
+  }
   return hashWithSeed(k, l, RAPID_SEED);
 }

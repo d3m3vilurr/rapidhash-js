@@ -103,9 +103,16 @@ const EXPECTS = [
   8979409949480607469n,
 ];
 
+const input = '0123456789abcdef'.repeat(10);
+
 for (const idx in EXPECTS) {
-  const hash = rapidhash.hash('0123456789abcdef'.repeat(10), parseInt(idx, 10));
-  if (hash !== EXPECTS[idx]) {
-    throw new Error(`unmatched hash ${idx} ${hash}`);
+  const i = parseInt(idx, 10);
+  let hash = rapidhash.hash(input, i);
+  if (hash !== EXPECTS[i]) {
+    throw new Error(`unmatched hash ${i} ${hash}`);
+  }
+  hash = rapidhash.hash(input.slice(0, i));
+  if (hash !== EXPECTS[i]) {
+    throw new Error(`unmatched hash ${i} ${hash}`);
   }
 }

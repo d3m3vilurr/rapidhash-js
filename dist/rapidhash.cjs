@@ -121,6 +121,9 @@ function hashWithSeed(k, l, seed) {
   return hashInternal(k, l, seed, RAPID_SECRET);
 }
 function hash(k, l) {
+  if (l === void 0) {
+    l = k.length;
+  }
   return hashWithSeed(k, l, RAPID_SEED);
 }
 // Annotate the CommonJS export names for ESM import in node:
